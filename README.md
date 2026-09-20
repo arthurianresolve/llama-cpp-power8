@@ -7,7 +7,9 @@
 [![Stars](https://img.shields.io/github/stars/Scottcjn/llama-cpp-power8)](https://github.com/Scottcjn/llama-cpp-power8/stargazers)
 [![Issues](https://img.shields.io/github/issues/Scottcjn/llama-cpp-power8)](https://github.com/Scottcjn/llama-cpp-power8/issues)
 
-## Performance Benchmarks
+## Earlier Performance Figures (methodology not recorded)
+
+The table below preserves figures already published in the repository. Their model quantization, whether the reported `tokens/s` means prompt-processing or text-generation throughput, llama.cpp revision, thread count, NUMA policy, and original command/output are not recorded. Treat these as reported historical figures: the available metadata is insufficient to reproduce them or compare them directly with the separate `pp128` and `tg32` workloads later in this README.
 
 | Model | Power8 (tokens/s) | x86_64 (tokens/s) | Speedup |
 |-------|-------------------|-------------------|---------|
@@ -37,7 +39,9 @@ Run your own models on your own hardware. This provides POWER8-specific optimiza
 - **ggml-dcbt-resident.h** - Full L2/L3 cache-resident prefetch hints
 - **altivec_benchmark.c** - AltiVec/VSX performance benchmark
 
-## Performance
+## Performance (pp128/tg32 workloads)
+
+In llama-bench nomenclature, `pp128` denotes prompt processing with 128 prompt tokens, and `tg32` denotes text generation of 32 tokens. These are separate workload measurements, so read them as distinct columns rather than a single tokens/s score. See the [llama-bench workload documentation](https://github.com/ggml-org/llama.cpp/tree/master/tools/llama-bench).
 
 Tested on IBM Power System S824 (dual 8-core POWER8, 576GB RAM):
 
