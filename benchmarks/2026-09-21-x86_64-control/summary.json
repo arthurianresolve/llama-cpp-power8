@@ -1,0 +1,46 @@
+{
+  "captured_utc": "2026-09-21T04:30:32Z/2026-09-21T04:31:32Z",
+  "llama_cpp": {
+    "tag": "b11065",
+    "commit": "ce8caa6e60a03093351d6016a818720e0d46f0fb",
+    "asset_sha256": "f00971c1b044fae179230bfc6f8d9f8461b778fef9ffac2b450088081a8ecd43"
+  },
+  "model": {
+    "name": "SmolLM2-135M-Q4_K_M.gguf",
+    "parameters": 134515008,
+    "sha256": "e3131339bf4e8065265593d4fd8f7bb7ff2d3abff1edb5618aa1197b89cad9f5"
+  },
+  "sampling": {
+    "warmup_invocations_discarded": 1,
+    "measured_invocations": 7,
+    "repetitions_per_workload_per_invocation": 10,
+    "raw_samples_per_workload": 70,
+    "excluded_samples": 0,
+    "delay_seconds": 2
+  },
+  "results_tokens_per_second": {
+    "pp128": {
+      "median_run_average": 435.417507,
+      "minimum_run_average": 411.146993,
+      "maximum_run_average": 466.720022,
+      "run_average_cv_percent": 4.019757254917276,
+      "raw_median": 434.4415,
+      "raw_q1": 426.735,
+      "raw_q3": 454.43725,
+      "raw_minimum": 309.362,
+      "raw_maximum": 530.845
+    },
+    "tg32": {
+      "median_run_average": 136.262959,
+      "minimum_run_average": 128.021631,
+      "maximum_run_average": 145.672452,
+      "run_average_cv_percent": 4.552774621332556,
+      "raw_median": 138.5015,
+      "raw_q1": 131.903,
+      "raw_q3": 144.28225,
+      "raw_minimum": 65.5096,
+      "raw_maximum": 153.881
+    }
+  },
+  "validity": "descriptive x86-64 WSL control only; not comparable with POWER8 results"
+}

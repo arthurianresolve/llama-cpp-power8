@@ -1,0 +1,4 @@
+benchmarks/**/*.jsonl text eol=lf
+benchmarks/**/*.tsv text eol=lf
+benchmarks/**/*.sha256 text eol=lf
+benchmarks/**/*.sh text eol=lf

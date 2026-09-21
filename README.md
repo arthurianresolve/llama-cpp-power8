@@ -20,6 +20,13 @@ The table below preserves figures already published in the repository. Their mod
 
 *Benchmarks run on Power8 (3.5GHz, 8 cores) vs Intel Xeon E5-2680 v4 (2.4GHz, 14 cores)*
 
+For the reporting detail needed to make future rows reproducible, see the
+[controlled `pp128`/`tg32` reference run](benchmarks/2026-09-21-x86_64-control/README.md).
+It records immutable tool and model hashes, the host and thread configuration,
+the exact command, all raw samples, and observed spread. Its x86-64 results are
+a reporting example only and are not comparable with the historical POWER8
+figures above.
+
 ### Memory Usage
 
 | Model | RAM Required | VRAM (GPU) |

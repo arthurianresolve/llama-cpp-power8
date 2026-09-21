@@ -1,0 +1,8 @@
+llama.cpp: b11065-ce8caa6e6
+model: SmolLM2-135M-Q4_K_M.gguf
+model SHA-256: e3131339bf4e8065265593d4fd8f7bb7ff2d3abff1edb5618aa1197b89cad9f5
+command: llama-cli -m SmolLM2-135M-Q4_K_M.gguf -t 4 -ngl 0 -s 1 --temp 0 -p "Once upon a time" -n 8 --no-display-prompt --single-turn --simple-io
+exit code: 0
+generated text:
+Once upon a time, the
+Once
