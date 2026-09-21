@@ -9,11 +9,11 @@ model_url="https://huggingface.co/ggml-org/SmolLM2-135M-GGUF/resolve/main/$model
 model_sha=e3131339bf4e8065265593d4fd8f7bb7ff2d3abff1edb5618aa1197b89cad9f5
 
 workdir=${WORKDIR:-"$PWD/.bench-work"}
+mkdir -p "$workdir"
+workdir=$(cd "$workdir" && pwd)
 downloads="$workdir/downloads"
-bindir="$workdir/bin"
 modeldir="$workdir/model"
-results="$workdir/results"
-mkdir -p "$downloads" "$bindir" "$modeldir" "$results"
+mkdir -p "$downloads" "$modeldir"
 
 fetch() {
     local url=$1
@@ -26,12 +26,15 @@ fetch() {
 fetch "$asset_url" "$downloads/$asset"
 printf '%s  %s\n' "$asset_sha" "$downloads/$asset" | sha256sum --check -
 
-if [[ ! -x $bindir/llama-b11065/llama-bench ]]; then
-    tar -xzf "$downloads/$asset" -C "$bindir"
-fi
-
 fetch "$model_url" "$modeldir/$model"
 printf '%s  %s\n' "$model_sha" "$modeldir/$model" | sha256sum --check -
+
+run_dir=$(mktemp -d "$workdir/run.XXXXXXXX")
+bindir="$run_dir/bin"
+results="$run_dir/results"
+mkdir -p "$bindir" "$results"
+printf 'Run directory: %s\n' "$run_dir"
+tar -xzf "$downloads/$asset" -C "$bindir"
 
 bench="$bindir/llama-b11065/llama-bench"
 export LD_LIBRARY_PATH="$bindir/llama-b11065"
@@ -83,7 +86,7 @@ done
 (
     cd "$results"
     sha256sum environment.txt version.txt devices.txt run-status.tsv \
-        run-*.jsonl run-*.stderr > checksums.sha256
+        warmup.jsonl warmup.stderr run-*.jsonl run-*.stderr > checksums.sha256
 )
 
 printf 'Results written to %s\n' "$results"

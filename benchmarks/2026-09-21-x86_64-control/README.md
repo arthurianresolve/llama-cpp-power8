@@ -85,3 +85,25 @@ The slow samples remain in those files and in every statistic above.
 
 Run [run.sh](run.sh) from this directory to download the pinned artifacts,
 verify their hashes, and repeat the same sampling plan.
+
+```sh
+bash run.sh
+# Or choose a cache location with enough space for the model and extracted tool:
+WORKDIR=/path/to/benchmark-cache bash run.sh
+```
+
+The runner requires Linux x86-64, Bash, curl, tar, sha256sum, lscpu, and taskset,
+with CPUs 0-3 available to the process. It rechecks the cached archive and model
+on every invocation, then extracts the verified archive into a fresh
+`WORKDIR/run.XXXXXXXX/bin` directory. Binaries or libraries from an earlier
+extraction are never reused. Each invocation keeps its own `results` directory,
+including a discarded warm-up, so reruns cannot overwrite earlier evidence.
+The path is printed before measurement; failed runs retain their diagnostics.
+
+The committed raw samples and statistics above remain the original reference
+record. A rerun produces a separate observation, not a replacement measurement.
+Setup regression tests use tiny synthetic fixtures and make no performance claim:
+
+```sh
+python3 -m unittest discover -s . -p 'test_*.py' -v
+```

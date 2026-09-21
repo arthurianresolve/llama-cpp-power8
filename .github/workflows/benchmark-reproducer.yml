@@ -1,0 +1,22 @@
+name: Benchmark Reproducer
+
+on:
+  pull_request:
+    paths:
+      - 'benchmarks/2026-09-21-x86_64-control/**'
+      - '.github/workflows/benchmark-reproducer.yml'
+  push:
+    paths:
+      - 'benchmarks/2026-09-21-x86_64-control/**'
+      - '.github/workflows/benchmark-reproducer.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  setup-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: bash -n benchmarks/2026-09-21-x86_64-control/run.sh
+      - run: python3 -m unittest discover -s benchmarks/2026-09-21-x86_64-control -p 'test_*.py' -v
