@@ -7,9 +7,14 @@
 [![Stars](https://img.shields.io/github/stars/Scottcjn/llama-cpp-power8)](https://github.com/Scottcjn/llama-cpp-power8/stargazers)
 [![Issues](https://img.shields.io/github/issues/Scottcjn/llama-cpp-power8)](https://github.com/Scottcjn/llama-cpp-power8/issues)
 
-## Earlier Performance Figures (methodology not recorded)
+## Historical Power8/x86 Comparison
 
-The table below preserves figures already published in the repository. Their model quantization, whether the reported `tokens/s` means prompt-processing or text-generation throughput, llama.cpp revision, thread count, NUMA policy, and original command/output are not recorded. Treat these as reported historical figures: the available metadata is insufficient to reproduce them or compare them directly with the separate `pp128` and `tg32` workloads later in this README.
+The figures below were added in [PR #10](https://github.com/Scottcjn/llama-cpp-power8/pull/10).
+The introducing change records model names and host labels, but does not identify
+the quantization, prompt-processing versus text-generation workload, llama.cpp
+revision, thread count, NUMA policy, or producing command and raw output. These
+reported historical figures cannot be reproduced from that record or compared
+directly with the separate [pp128/tg32 workloads below](#performance-pp128tg32-workloads).
 
 | Model | Power8 (tokens/s) | x86_64 (tokens/s) | Speedup |
 |-------|-------------------|-------------------|---------|
@@ -18,7 +23,7 @@ The table below preserves figures already published in the repository. Their mod
 | LLaMA 30B | 2.9 | 2.3 | 1.26x |
 | LLaMA 65B | 1.4 | 1.1 | 1.27x |
 
-*Benchmarks run on Power8 (3.5GHz, 8 cores) vs Intel Xeon E5-2680 v4 (2.4GHz, 14 cores)*
+*Reported hosts: Power8 (3.5GHz, 8 cores) vs Intel Xeon E5-2680 v4 (2.4GHz, 14 cores)*
 
 For the reporting detail needed to make future rows reproducible, see the
 [controlled `pp128`/`tg32` reference run](benchmarks/2026-09-21-x86_64-control/README.md).
@@ -48,9 +53,18 @@ Run your own models on your own hardware. This provides POWER8-specific optimiza
 
 ## Performance (pp128/tg32 workloads)
 
-In llama-bench nomenclature, `pp128` denotes prompt processing with 128 prompt tokens, and `tg32` denotes text generation of 32 tokens. These are separate workload measurements, so read them as distinct columns rather than a single tokens/s score. See the [llama-bench workload documentation](https://github.com/ggml-org/llama.cpp/tree/master/tools/llama-bench).
+In llama-bench nomenclature, `pp128` denotes prompt processing with 128 prompt
+tokens, and `tg32` denotes text generation of 32 tokens. These are separate
+workload measurements. See the [llama-bench workload documentation](https://github.com/ggml-org/llama.cpp/tree/master/tools/llama-bench).
 
-Tested on IBM Power System S824 (dual 8-core POWER8, 576GB RAM):
+The [original README](https://github.com/Scottcjn/llama-cpp-power8/blob/85afd6a979b24496b1e622ba3c907caceac4237a/README.md)
+published the first three rows alongside a TinyLlama benchmark example using
+`-t 64 -p 128 -n 32`, POWER8 build flags, and an S824 host description. These
+details support a candidate reconstruction of the setup. The exact model files,
+llama.cpp revision, enabled optional features, binding/NUMA settings, repetition
+policy, and raw output for those rows remain unspecified.
+
+Reported on IBM Power System S824 (dual 8-core POWER8, 576GB RAM):
 
 | Model | pp128 (tokens/s) | tg32 (tokens/s) |
 |-------|-----------------|-----------------|
@@ -64,6 +78,14 @@ Tested on IBM Power System S824 (dual 8-core POWER8, 576GB RAM):
 > Gemma 4 26B-A4B mixture-of-experts vs the same master without PSE (10.7x vs
 > stock-unbound). Details + the PSE-2 "Expert Coffers" direction in
 > [PSE_IMPLEMENTATION_LOG.md](PSE_IMPLEMENTATION_LOG.md).
+
+The [PSE build and runtime notes](https://github.com/Scottcjn/llama-cpp-power8/blob/e711163f476300ee201149607460c86bad8e3b35/POWER8_PSE.md)
+and [Gemma comparison notes](https://github.com/Scottcjn/llama-cpp-power8/blob/85891248b692edc7e95087b42a50fb6c5e35e249/PSE_IMPLEMENTATION_LOG.md)
+add setup details, including `ac4cdde` and thread binding for Gemma. They still
+lack complete run records linking each result to exact inputs, commands, and
+raw samples. A reconstructed run must document its own pinned inputs and
+results; matching a historical figure would not establish that its original
+methodology had been recovered.
 
 ## Building llama.cpp for POWER8
 
