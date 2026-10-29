@@ -7,7 +7,7 @@
 [![Stars](https://img.shields.io/github/stars/Scottcjn/llama-cpp-power8)](https://github.com/Scottcjn/llama-cpp-power8/stargazers)
 [![Issues](https://img.shields.io/github/issues/Scottcjn/llama-cpp-power8)](https://github.com/Scottcjn/llama-cpp-power8/issues)
 
-## Historical Power8/x86 Comparison
+## Historical Power8/x86 Comparison (unverified)
 
 The figures below were added in [PR #10](https://github.com/Scottcjn/llama-cpp-power8/pull/10).
 The introducing change records model names and host labels, but does not identify
@@ -25,12 +25,20 @@ directly with the separate [pp128/tg32 workloads below](#performance-pp128tg32-w
 
 *Reported hosts: Power8 (3.5GHz, 8 cores) vs Intel Xeon E5-2680 v4 (2.4GHz, 14 cores)*
 
-For the reporting detail needed to make future rows reproducible, see the
-[controlled `pp128`/`tg32` reference run](benchmarks/2026-09-21-x86_64-control/README.md).
-It records immutable tool and model hashes, the host and thread configuration,
-the exact command, all raw samples, and observed spread. Its x86-64 results are
-a reporting example only and are not comparable with the historical POWER8
-figures above.
+### Reproducible POWER8 benchmark checklist
+
+For each new benchmark result, retain:
+
+- Exact model filename, quantization, source URL, and SHA-256.
+- Full llama.cpp commit and any patches, build flags, and optional features.
+- Host model, CPUs, RAM, OS, and compiler version.
+- Full command, workload (`pp128` or `tg32`), and environment variables.
+- Thread count, CPU binding, and NUMA policy.
+- Warm-up policy, repetition count, and all raw `-o jsonl` output.
+- Exit status, summary statistics, and observed spread across runs.
+
+An [x86 reporting example preserved in the contributor's fork](https://github.com/arthurianresolve/llama-cpp-power8/tree/325c3e3e93ad01c9d4f771f69a248a4a50b37ff0/benchmarks/2026-09-21-x86_64-control)
+illustrates the record format; its results are not comparable with these POWER8 figures.
 
 ### Memory Usage
 
@@ -59,12 +67,12 @@ workload measurements. See the [llama-bench workload documentation](https://gith
 
 The [original README](https://github.com/Scottcjn/llama-cpp-power8/blob/85afd6a979b24496b1e622ba3c907caceac4237a/README.md)
 published the first three rows alongside a TinyLlama benchmark example using
-`-t 64 -p 128 -n 32`, POWER8 build flags, and an S824 host description. These
-details support a candidate reconstruction of the setup. The exact model files,
-llama.cpp revision, enabled optional features, binding/NUMA settings, repetition
-policy, and raw output for those rows remain unspecified.
+`-t 64 -p 128 -n 32`, POWER8 build flags, and an S824 host description.
+Exact model files, revision, optional features, NUMA binding, repetition policy,
+and raw output for these rows were not recorded.
 
-Reported on IBM Power System S824 (dual 8-core POWER8, 576GB RAM):
+**Historical results (unverified)**, reported on IBM Power System S824
+(dual 8-core POWER8, 576GB RAM):
 
 | Model | pp128 (tokens/s) | tg32 (tokens/s) |
 |-------|-----------------|-----------------|
@@ -81,11 +89,8 @@ Reported on IBM Power System S824 (dual 8-core POWER8, 576GB RAM):
 
 The [PSE build and runtime notes](https://github.com/Scottcjn/llama-cpp-power8/blob/e711163f476300ee201149607460c86bad8e3b35/POWER8_PSE.md)
 and [Gemma comparison notes](https://github.com/Scottcjn/llama-cpp-power8/blob/85891248b692edc7e95087b42a50fb6c5e35e249/PSE_IMPLEMENTATION_LOG.md)
-add setup details, including `ac4cdde` and thread binding for Gemma. They still
-lack complete run records linking each result to exact inputs, commands, and
-raw samples. A reconstructed run must document its own pinned inputs and
-results; matching a historical figure would not establish that its original
-methodology had been recovered.
+add setup details, including `ac4cdde` and thread binding for Gemma, but do not
+record complete per-result inputs, commands, and raw output.
 
 ## Building llama.cpp for POWER8
 
